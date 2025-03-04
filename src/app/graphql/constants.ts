@@ -1,0 +1,4 @@
+export enum ERROR_CODES {
+  BAD_USER_INPUT = "BAD_USER_INPUT",
+  BAD_REQUEST = "BAD_REQUEST",
+}
