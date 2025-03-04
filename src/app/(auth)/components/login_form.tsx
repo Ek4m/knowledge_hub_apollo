@@ -34,13 +34,18 @@ export const LoginForm = () => {
       <form onSubmit={onSubmit}>
         <FormControl isInvalid={!!errors.email}>
           <FormLabel>Email address</FormLabel>
-          <Input type="email" name="email" />
+          <Input type="email" name="email" placeholder="Ex:john.doe@mail.com" />
           <FormErrorMessage>{errors.email}</FormErrorMessage>
         </FormControl>
         <br />
         <FormControl isInvalid={!!errors.password}>
           <FormLabel htmlFor="password">Password</FormLabel>
-          <Input id="password" name="password" type="password" />
+          <Input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Ex:johndoe1918..."
+          />
           <FormErrorMessage>{errors.password}</FormErrorMessage>
         </FormControl>
         <br />
@@ -55,9 +60,16 @@ export const LoginForm = () => {
         </Button>
       </form>
       <br />
-      <ChakraLink textAlign="center" color="maroon" as={Link} href="/register">
-        Don{"'"}t have user? Register
-      </ChakraLink>
+      <Box display="flex" justifyContent="center">
+        <ChakraLink
+          textAlign="center"
+          color="maroon"
+          as={Link}
+          href="/register"
+        >
+          Don{"'"}t have user? Register
+        </ChakraLink>
+      </Box>
     </Box>
   );
 };
