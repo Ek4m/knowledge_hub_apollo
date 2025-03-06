@@ -13,10 +13,8 @@ import {
 import Link from "next/link";
 import { useLogin } from "../hooks";
 
-
 export const LoginForm = () => {
   const { onSubmit, isSubmitting, errors } = useLogin();
-
   return (
     <Box
       width={["80%", "50%"]}

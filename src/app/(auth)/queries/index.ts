@@ -32,6 +32,12 @@ export const ME_QUERY = gql`
   {
     me {
       id
+      email
+      role
+      profile{
+        firstName
+        lastName
+      }
     }
   }
 `;

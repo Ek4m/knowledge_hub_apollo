@@ -46,11 +46,11 @@ const applyRefreshToken = async () => {
   return null;
 };
 
-const authLink = setContext(async (_, { headers }) => {
+const authLink = setContext(async (_, second) => {
   const token = Cookies.get(__access_token);
   return {
     headers: {
-      ...headers,
+      ...second.headers,
       Authorization: token ? `Bearer ${token}` : "",
     },
   };
