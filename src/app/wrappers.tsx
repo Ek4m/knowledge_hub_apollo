@@ -10,4 +10,4 @@ export const AppProviders: FC<PropsWithChildren> = ({ children }) => {
       <ChakraProvider>{children}</ChakraProvider>
     </ApolloProvider>
   );
-};
+}; 

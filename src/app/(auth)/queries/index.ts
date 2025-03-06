@@ -18,3 +18,20 @@ export const REGISTER_QUERY = gql`
     }
   }
 `;
+
+export const REFRESH_TOKEN_QUERY = gql`
+  mutation Refresh($body: RefreshDto!) {
+    refresh(body: $body) {
+      accessToken
+      refreshToken
+    }
+  }
+`;
+
+export const ME_QUERY = gql`
+  {
+    me {
+      id
+    }
+  }
+`;
