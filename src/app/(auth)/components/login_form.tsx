@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useLogin } from "../hooks";
+import { COLORS } from "@/app/common/constants";
 
 export const LoginForm = () => {
   const { onSubmit, isSubmitting, errors } = useLogin();
@@ -53,7 +54,7 @@ export const LoginForm = () => {
           type="submit"
           width={"100%"}
           color="#ffff"
-          backgroundColor="#9b59b6"
+          bg={COLORS.red}
         >
           Button
         </Button>

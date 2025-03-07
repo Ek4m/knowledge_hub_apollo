@@ -1,5 +1,11 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Link as ChakraLink,
   Box,
@@ -15,18 +21,21 @@ import {
   MenuItem,
   MenuDivider,
   Stack,
+  Spinner,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, CloseIcon, SmallAddIcon } from "@chakra-ui/icons";
 import { COLORS } from "../constants";
 import MainLogo from "./logo";
 import { linkHoverStyle } from "./styling";
+import { UserContext } from "@/app/user/contexts";
 
 export const MainHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const headerRef = useRef<HTMLDivElement>(null);
   const [scrollActive, setScrollActive] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
+  const { data: userData, userLoading } = useContext(UserContext);
 
   const onScrollHandler = useCallback(() => {
     setScrollActive(window.scrollY > 50);
@@ -39,13 +48,16 @@ export const MainHeader = () => {
       window.removeEventListener("scroll", onScrollHandler);
     };
   }, [onScrollHandler]);
+
   if (!isMounted) return null;
   return (
     <Box
       ref={headerRef}
+      top="0"
       transition="0.4s ease 0s"
       boxShadow={scrollActive ? " 0px 5px 10px 2px #d1ccc0" : "none"}
       bg="#ffff"
+      zIndex={2}
       px={[10, 20, 40]}
       py={2}
       width="100%"
@@ -85,20 +97,29 @@ export const MainHeader = () => {
             >
               Contact us
             </Button>
-            <MenuButton
-              as={Button}
-              rounded={"full"}
-              variant={"link"}
-              cursor={"pointer"}
-              minW={0}
-            >
-              <Avatar
-                size={"md"}
-                src={
-                  "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                }
-              />
-            </MenuButton>
+            {userLoading && <Spinner />}
+            {userData ? (
+              <MenuButton
+                as={Button}
+                rounded={"full"}
+                variant={"link"}
+                cursor={"pointer"}
+                minW={0}
+              >
+                <Avatar
+                  size={"md"}
+                  src={
+                    "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                  }
+                />
+              </MenuButton>
+            ) : (
+              <Link href="/login">
+                <Button mx={5} bg={COLORS.red} color={"#ffff"}>
+                  <SmallAddIcon fontSize={30} />
+                </Button>
+              </Link>
+            )}
             <MenuList>
               <MenuItem>
                 <ChakraLink as={Link} href="/">
@@ -112,7 +133,7 @@ export const MainHeader = () => {
               </MenuItem>
               <MenuDivider />
               <MenuItem>
-                <ChakraLink color="red" href="/">
+                <ChakraLink as={Link} color="red" href="/logout">
                   Log out
                 </ChakraLink>
               </MenuItem>

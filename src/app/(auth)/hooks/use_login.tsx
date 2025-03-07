@@ -16,7 +16,7 @@ export const useLogin = () => {
   const [submit, { loading }] = useMutation(LOGIN_QUERY, {
     errorPolicy: "all",
   });
-  
+
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const toast = useToast();
   const router = useRouter();
@@ -54,8 +54,11 @@ export const useLogin = () => {
         const {
           signIn: { accessToken, refreshToken },
         } = result.data;
-        Cookie.set(__access_token, accessToken);
-        Cookie.set(__refresh_token, refreshToken);
+        const date = new Date();
+        date.setDate(date.getDate() + 1);
+        Cookie.set(__access_token, accessToken, { expires: date });
+        date.setDate(date.getDate() + 4);
+        Cookie.set(__refresh_token, refreshToken, { expires: date });
         toast({
           status: "success",
           position: "top-right",

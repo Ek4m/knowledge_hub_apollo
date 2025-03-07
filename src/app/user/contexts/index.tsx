@@ -21,7 +21,6 @@ export const UserContext = createContext<{
 
 export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const user = useQuery(ME_QUERY);
-  console.log(user.data?.me);
   return (
     <UserContext.Provider
       value={{

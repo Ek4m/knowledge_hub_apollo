@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRegister } from "../hooks";
+import { COLORS } from "@/app/common/constants";
 
 export const RegisterForm = () => {
   const { onSubmit, isSubmitting, errors } = useRegister();
@@ -76,7 +77,7 @@ export const RegisterForm = () => {
           type="submit"
           width={"100%"}
           color="#ffff"
-          backgroundColor="#9b59b6"
+          bg={COLORS.red}
         >
           Register now!
         </Button>
