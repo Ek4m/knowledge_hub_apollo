@@ -3,10 +3,11 @@ import Link from "next/link";
 import React from "react";
 import { linkHoverStyle } from "./styling";
 import MainLogo from "./logo";
+import { STYLES } from "../constants";
 
 export const MainFooter = () => {
   return (
-    <Box px={[10, 20, 40]}>
+    <Box px={STYLES.commonXPadding}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <MainLogo />
         <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>

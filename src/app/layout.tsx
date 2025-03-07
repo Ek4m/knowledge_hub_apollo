@@ -1,4 +1,5 @@
 import "./globals.css";
+
 import type { Metadata } from "next";
 import { AppProviders } from "./wrappers";
 import { MainHeader, MainFooter } from "./common/components";

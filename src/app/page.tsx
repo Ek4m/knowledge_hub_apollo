@@ -1,9 +1,9 @@
 import { Box, Button, Flex, Heading, Image, Text } from "@chakra-ui/react";
-import { COLORS } from "./common/constants";
+import { COLORS, STYLES } from "./common/constants";
 
 export default function Home() {
   return (
-    <Box px={[10, 20, 40]}>
+    <Box px={STYLES.commonXPadding}>
       <Flex py={20} justifyContent={"space-between"}>
         <Flex width={"50%"} flexDirection={"column"} alignItems={"flex-start"}>
           <Heading size={"2xl"}>Documentation Theme By Gethugothemes</Heading>

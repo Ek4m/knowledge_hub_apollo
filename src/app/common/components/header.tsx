@@ -25,7 +25,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { HamburgerIcon, CloseIcon, SmallAddIcon } from "@chakra-ui/icons";
-import { COLORS } from "../constants";
+import { COLORS, STYLES } from "../constants";
 import MainLogo from "./logo";
 import { linkHoverStyle } from "./styling";
 import { UserContext } from "@/app/user/contexts";
@@ -57,8 +57,8 @@ export const MainHeader = () => {
       transition="0.4s ease 0s"
       boxShadow={scrollActive ? " 0px 5px 10px 2px #d1ccc0" : "none"}
       bg="#ffff"
-      zIndex={2}
-      px={[10, 20, 40]}
+      zIndex={5}
+      px={STYLES.commonXPadding}
       py={2}
       width="100%"
       position={scrollActive ? "fixed" : "static"}
@@ -86,9 +86,11 @@ export const MainHeader = () => {
         </HStack>
         <Flex alignItems={"center"}>
           <Menu>
-            <Button mx={5} bg={COLORS.red} color={"#ffff"}>
-              Try it out
-            </Button>
+            <Link href="/documents/new">
+              <Button mx={5} bg={COLORS.red} color={"#ffff"}>
+                Try it out
+              </Button>
+            </Link>
             <Button
               mr={5}
               bg={"#ffff"}
