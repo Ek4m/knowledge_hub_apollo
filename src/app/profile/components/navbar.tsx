@@ -4,7 +4,7 @@ import { HStack, Link as ChakraLink } from "@chakra-ui/react";
 
 import { COLORS } from "@/app/common/constants";
 
-const ProfileNavbar = () => {
+export const ProfileNavbar = () => {
   return (
     <HStack
       flexDirection="column"
@@ -16,11 +16,9 @@ const ProfileNavbar = () => {
       <ChakraLink as={Link} href="/profile">
         Personal info
       </ChakraLink>
-      <ChakraLink as={Link} href="/documents">
+      <ChakraLink as={Link} href="/profile/documents">
         My documents
       </ChakraLink>
     </HStack>
   );
 };
-
-export default ProfileNavbar;

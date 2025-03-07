@@ -1,14 +1,12 @@
 import { Box } from "@chakra-ui/react";
-import React, { PropsWithChildren, ReactNode } from "react";
+import React, { PropsWithChildren } from "react";
 import { STYLES } from "../common/constants";
+import { ProfileNavbar } from "./components";
 
-export default function ProfileLayout({
-  navbar,
-  children,
-}: PropsWithChildren<{ navbar: ReactNode }>) {
+export default function ProfileLayout({ children }: PropsWithChildren) {
   return (
     <Box display="flex" flexDirection={"row"} px={STYLES.commonXPadding}>
-      {navbar}
+      <ProfileNavbar />
       <Box flex={"1"} minHeight="50vh" overflowY={"scroll"}>
         {children}
       </Box>
