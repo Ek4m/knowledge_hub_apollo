@@ -1,11 +1,19 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { Editor } from "@tinymce/tinymce-react";
-import { Box, FormControl, FormLabel, Heading, Input } from "@chakra-ui/react";
-import { STYLES } from "@/app/common/constants";
+import {
+  Box,
+  Button,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+} from "@chakra-ui/react";
+import { COLORS, STYLES } from "@/app/common/constants";
+import { useCreateDoc } from "../hooks";
 
 export const DocumentEditor = () => {
-  const [textValue, setTextValue] = useState("");
+  const { onSubmit, isSubmitting, errors } = useCreateDoc();
 
   return (
     <Box>
@@ -15,19 +23,18 @@ export const DocumentEditor = () => {
         <br />
         <hr />
         <br />
-        <form>
-          <FormControl>
+        <form onSubmit={onSubmit}>
+          <FormControl isInvalid={!!errors.title}>
             <FormLabel>Title of project</FormLabel>
-            <Input placeholder="Enter title..." />
+            <Input placeholder="Enter title..." name="title" />
           </FormControl>
           <br />
-          <FormControl>
+          <FormControl isInvalid={!!errors.content}>
             <FormLabel>Content</FormLabel>
             <Editor
               apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-              value={textValue}
-              onEditorChange={setTextValue}
               id="text_editor"
+              textareaName="content"
               init={{
                 height: 500,
                 menubar: false,
@@ -62,6 +69,16 @@ export const DocumentEditor = () => {
               }}
             />
           </FormControl>
+          <br />
+          <Button
+            type="submit"
+            isLoading={isSubmitting}
+            width={"100%"}
+            bg={COLORS.red}
+            color="white"
+          >
+            Create
+          </Button>
         </form>
       </Box>
     </Box>

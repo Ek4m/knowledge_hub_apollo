@@ -7,18 +7,23 @@ import { STYLES } from "../constants";
 
 export const MainFooter = () => {
   return (
-    <Box px={STYLES.commonXPadding}>
+    <Box mt={20} px={STYLES.commonXPadding}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <MainLogo />
         <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
           <ChakraLink ml={5} _hover={linkHoverStyle} as={Link} href="/">
             Home
           </ChakraLink>
-          <ChakraLink ml={5} _hover={linkHoverStyle} as={Link} href="/">
-            Home
+          <ChakraLink
+            ml={5}
+            _hover={linkHoverStyle}
+            as={Link}
+            href="/documents/new"
+          >
+            Try it out
           </ChakraLink>
-          <ChakraLink ml={5} _hover={linkHoverStyle} as={Link} href="/">
-            Home
+          <ChakraLink ml={5} _hover={linkHoverStyle} as={Link} href="/contact">
+            Contact
           </ChakraLink>
         </HStack>
       </Flex>
