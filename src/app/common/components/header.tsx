@@ -124,13 +124,13 @@ export const MainHeader = () => {
             )}
             <MenuList>
               <MenuItem>
-                <ChakraLink as={Link} href="/">
+                <ChakraLink as={Link} href="/profile">
                   Profile
                 </ChakraLink>
               </MenuItem>
               <MenuItem>
-                <ChakraLink as={Link} href="/">
-                  Options
+                <ChakraLink as={Link} href="/profile/documents">
+                  My documents
                 </ChakraLink>
               </MenuItem>
               <MenuDivider />
