@@ -1,16 +1,25 @@
 import { useMutation } from "@apollo/client";
-import { LOGIN_QUERY } from "../queries";
-import { FormEvent, useCallback, useState } from "react";
-import { ERROR_CODES } from "@/app/graphql/constants";
+import { useRouter } from "next/navigation";
+import { FormEvent, useCallback, useContext, useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import Cookie from "js-cookie";
+
+import { ERROR_CODES } from "@/app/graphql/constants";
+import { UserContext } from "@/app/user/contexts";
+
 import { __access_token, __refresh_token } from "../constants/values";
+import { LOGIN_QUERY } from "../queries";
+
 export const useLogin = () => {
+  const { refetch } = useContext(UserContext);
+
   const [submit, { loading }] = useMutation(LOGIN_QUERY, {
     errorPolicy: "all",
   });
+  
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const toast = useToast();
+  const router = useRouter();
 
   const onSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -54,9 +63,11 @@ export const useLogin = () => {
           description: "Logged in successfully",
           duration: 2000,
         });
+        await refetch!();
+        router.push("/");
       }
     },
-    [submit, toast]
+    [submit, toast, router, refetch]
   );
 
   return { onSubmit, isSubmitting: loading, errors: formErrors };

@@ -21,12 +21,13 @@ export const UserContext = createContext<{
 
 export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const user = useQuery(ME_QUERY);
+  console.log(user.data?.me);
   return (
     <UserContext.Provider
       value={{
         refetch: user.refetch,
         userLoading: user.loading,
-        data: user.data,
+        data: user.data?.me,
       }}
     >
       {children}

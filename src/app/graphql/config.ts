@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 
 import { REFRESH_TOKEN_QUERY } from "../(auth)/queries";
 import { __access_token, __refresh_token } from "../(auth)/constants/values";
+import { ERROR_CODES } from "./constants";
 
 let pendingRequests: CallableFunction[] = [];
 let isRefreshing = false;
@@ -61,7 +62,7 @@ const httpLink = createHttpLink({ uri: "http://localhost:4000/graphql" });
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
   if (graphQLErrors) {
     for (const err of graphQLErrors) {
-      if (err.extensions?.code === "UNAUTHORIZED") {
+      if (err.extensions?.code === ERROR_CODES.UNAUTHORIZED) {
         // Return a new Observable to handle the token refresh
         return new Observable((observer) => {
           // Refresh your accessToken async here

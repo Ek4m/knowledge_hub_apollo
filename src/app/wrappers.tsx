@@ -8,9 +8,11 @@ import { UserProvider } from "./user/contexts";
 export const AppProviders: FC<PropsWithChildren> = ({ children }) => {
   return (
     <ApolloProvider client={apolloClient}>
-      <UserProvider>
-        <ChakraProvider>{children}</ChakraProvider>
-      </UserProvider>
+      <ChakraProvider>
+        <UserProvider>
+          {children}
+          </UserProvider>
+      </ChakraProvider>
     </ApolloProvider>
   );
 };
