@@ -12,7 +12,7 @@ import { COLORS } from "../common/constants";
 
 export default function PersonalProfilePage() {
   return (
-    <Box pl={10}>
+    <Box>
       <Heading>Personal info</Heading>
       <br />
       <hr />

@@ -7,3 +7,12 @@ export const CREATE_DOC_QUERY = gql`
     }
   }
 `;
+
+export const GET_MY_DOCS_QUERY = gql`
+  {
+    myDocs {
+      id
+      title
+    }
+  }
+`;

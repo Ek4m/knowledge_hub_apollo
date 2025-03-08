@@ -8,6 +8,7 @@ export const ProfileNavbar = () => {
   return (
     <HStack
       flexDirection="column"
+      mr={5}
       alignItems={"flex-start"}
       as={"nav"}
       borderRight={`1px solid ${COLORS.red}`}
