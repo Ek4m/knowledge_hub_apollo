@@ -1,3 +1,4 @@
+"use client";
 import React, { FC } from "react";
 import { IDoc } from "../types";
 import { Flex, LinkIcon, Text } from "@chakra-ui/icons";
@@ -13,7 +14,7 @@ export const DocListElem: FC<{ doc: IDoc }> = ({ doc }) => {
       justifyContent={"space-between"}
       w={"100%"}
     >
-      <Link color={"grey"}href={`/documents/${doc.id}`}>
+      <Link color={"grey"} href={`/documents/${doc.id}`}>
         <Flex alignItems={"center"}>
           <LinkIcon mr={2} fontSize={20} />
           <Text fontSize={"20"}>{doc.title}</Text>
