@@ -80,6 +80,7 @@ export const DocumentEditor = () => {
           <Flex>
             <FormControl isInvalid={!!errors.categoryId}>
               <Select
+                placeholder="Select category..."
                 value={categoryId}
                 onChange={setCategory}
                 options={categories?.map((elem) => ({

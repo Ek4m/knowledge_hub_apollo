@@ -8,16 +8,24 @@ interface IOption {
   name: string;
 }
 
-export const Select: FC<{
+interface SelectOptions {
   options?: IOption[];
   value: string;
   onChange(value: string): void;
-}> = ({ onChange, options = [], value }) => {
+  placeholder: string;
+}
+
+export const Select: FC<SelectOptions> = ({
+  onChange,
+  options = [],
+  value,
+  placeholder = "Select option",
+}) => {
   return (
     <ChakraSelect
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      placeholder="Select option"
+      placeholder={placeholder}
     >
       {options.map((elem) => (
         <option key={elem.value} value={elem.value}>
