@@ -1,20 +1,25 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import {
   Box,
   Button,
+  Flex,
   FormControl,
+  FormErrorMessage,
   FormLabel,
   Heading,
   Input,
 } from "@chakra-ui/react";
 import { COLORS, STYLES } from "@/app/common/constants";
 import { useCreateDoc } from "../hooks";
+import { CategoryContext } from "@/app/category/contexts";
+import { Select } from "@/app/common/components/select";
 
 export const DocumentEditor = () => {
-  const { onSubmit, isSubmitting, errors } = useCreateDoc();
-
+  const { onSubmit, isSubmitting, errors, setCategory, categoryId } =
+    useCreateDoc();
+  const { data: categories } = useContext(CategoryContext);
   return (
     <Box>
       <Box px={STYLES.commonXPadding}>
@@ -27,6 +32,7 @@ export const DocumentEditor = () => {
           <FormControl isInvalid={!!errors.title}>
             <FormLabel>Title of project</FormLabel>
             <Input placeholder="Enter title..." name="title" />
+            <FormErrorMessage>{errors.title}</FormErrorMessage>
           </FormControl>
           <br />
           <FormControl isInvalid={!!errors.content}>
@@ -68,17 +74,32 @@ export const DocumentEditor = () => {
                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
               }}
             />
+            <FormErrorMessage>{errors.content}</FormErrorMessage>
           </FormControl>
           <br />
-          <Button
-            type="submit"
-            isLoading={isSubmitting}
-            width={"100%"}
-            bg={COLORS.red}
-            color="white"
-          >
-            Create
-          </Button>
+          <Flex>
+            <FormControl isInvalid={!!errors.categoryId}>
+              <Select
+                value={categoryId}
+                onChange={setCategory}
+                options={categories?.map((elem) => ({
+                  name: elem.name,
+                  value: elem.id.toString(),
+                }))}
+              />
+              <FormErrorMessage>{errors.categoryId}</FormErrorMessage>
+            </FormControl>
+            <Button
+              ml={5}
+              type="submit"
+              isLoading={isSubmitting}
+              width={"100%"}
+              bg={COLORS.red}
+              color="white"
+            >
+              Create
+            </Button>
+          </Flex>
         </form>
       </Box>
     </Box>

@@ -1,11 +1,14 @@
 "use client";
 import { useQuery } from "@apollo/client";
-import React, { useEffect, useMemo } from "react";
+import React, { Fragment, useEffect, useMemo } from "react";
 import { GET_DOC_QUERY } from "../queries";
 import { useParams } from "next/navigation";
 import { IDoc } from "../types";
-import { Box, Heading, Spinner } from "@chakra-ui/react";
+import { Box, Button, Heading, Spinner } from "@chakra-ui/react";
 import { datePrettify } from "@/app/common/utils";
+import { EditIcon } from "@chakra-ui/icons";
+import { COLORS } from "@/app/common/constants";
+import Link from "next/link";
 
 export const DocDetails = () => {
   const params = useParams();
@@ -33,12 +36,23 @@ export const DocDetails = () => {
       {doc && (
         <>
           <Heading size="lg">{doc.title}</Heading>
-          <i>Created at: {datePrettify(doc.createdAt)}</i>
+          <i>{datePrettify(doc.createdAt)}</i>
         </>
       )}
       <br />
       <br />
-      {doc && <div dangerouslySetInnerHTML={{ __html: doc.content }} />}
+      {doc && (
+        <Fragment>
+          <div dangerouslySetInnerHTML={{ __html: doc.content }} />
+          <br />
+          <Link href={`/documents/${doc.id}/edit`}>
+            <Button bg={COLORS.red} color={"white"}>
+              <EditIcon mr={1} />
+              Edit
+            </Button>
+          </Link>
+        </Fragment>
+      )}
     </Box>
   );
 };

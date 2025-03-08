@@ -8,7 +8,7 @@ import { ERROR_CODES } from "@/app/graphql/constants";
 import { CREATE_DOC_QUERY } from "../queries";
 
 export const useCreateDoc = () => {
-
+  const [categoryId, setCategory] = useState("");
   const [submit, { loading }] = useMutation(CREATE_DOC_QUERY, {
     errorPolicy: "all",
   });
@@ -25,6 +25,7 @@ export const useCreateDoc = () => {
       const body = {
         title: formData.get("title"),
         content: formData.get("content"),
+        categoryId,
       };
       const result = await submit({ variables: { body } });
       if (result.errors) {
@@ -57,8 +58,14 @@ export const useCreateDoc = () => {
         router.push("/");
       }
     },
-    [submit, toast, router]
+    [submit, toast, router, categoryId]
   );
 
-  return { onSubmit, isSubmitting: loading, errors: formErrors };
+  return {
+    onSubmit,
+    isSubmitting: loading,
+    errors: formErrors,
+    categoryId,
+    setCategory,
+  };
 };
