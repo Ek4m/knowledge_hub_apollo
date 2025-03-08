@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
-import { DocumentEditor } from "../components";
-
+import { CreateDocument } from "../components";
+ 
 const NewDocumentPage = () => {
   return (
     <Box>
-      <DocumentEditor />
+      <CreateDocument />
     </Box>
   );
 };

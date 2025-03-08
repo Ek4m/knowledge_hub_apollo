@@ -35,7 +35,9 @@ export const DocDetails = () => {
       {loading && <Spinner size="xl" />}
       {doc && (
         <>
-          <Heading size="lg">{doc.title}</Heading>
+          <Heading size="lg">
+            <i>{doc.title}</i>
+          </Heading>
           <i>{datePrettify(doc.createdAt)}</i>
         </>
       )}
@@ -43,7 +45,7 @@ export const DocDetails = () => {
       <br />
       {doc && (
         <Fragment>
-          <div dangerouslySetInnerHTML={{ __html: doc.content }} />
+          <div className="html_render_css" dangerouslySetInnerHTML={{ __html: doc.content }} />
           <br />
           <Link href={`/documents/${doc.id}/edit`}>
             <Button bg={COLORS.red} color={"white"}>

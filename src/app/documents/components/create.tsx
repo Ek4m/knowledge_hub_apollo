@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext } from "react";
-import { Editor } from "@tinymce/tinymce-react";
 import {
   Box,
   Button,
@@ -15,8 +14,9 @@ import { COLORS, STYLES } from "@/app/common/constants";
 import { useCreateDoc } from "../hooks";
 import { CategoryContext } from "@/app/category/contexts";
 import { Select } from "@/app/common/components/select";
+import { RichTextEditor } from "./text_editor";
 
-export const DocumentEditor = () => {
+export const CreateDocument = () => {
   const { onSubmit, isSubmitting, errors, setCategory, categoryId } =
     useCreateDoc();
   const { data: categories } = useContext(CategoryContext);
@@ -37,42 +37,9 @@ export const DocumentEditor = () => {
           <br />
           <FormControl isInvalid={!!errors.content}>
             <FormLabel>Content</FormLabel>
-            <Editor
-              apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-              id="text_editor"
+            <RichTextEditor
+              placeholder="Add content..."
               textareaName="content"
-              init={{
-                height: 500,
-                menubar: false,
-                placeholder: "Add content...",
-                plugins: [
-                  "advlist",
-                  "autolink",
-                  "lists",
-                  "link",
-                  "image",
-                  "charmap",
-                  "preview",
-                  "anchor",
-                  "searchreplace",
-                  "visualblocks",
-                  "code",
-                  "fullscreen",
-                  "insertdatetime",
-                  "media",
-                  "table",
-                  "code",
-                  "help",
-                  "wordcount",
-                ],
-                toolbar:
-                  "undo redo | blocks | " +
-                  "bold italic forecolor | alignleft aligncenter " +
-                  "alignright alignjustify | bullist numlist outdent indent | " +
-                  "removeformat | help | link",
-                content_style:
-                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-              }}
             />
             <FormErrorMessage>{errors.content}</FormErrorMessage>
           </FormControl>

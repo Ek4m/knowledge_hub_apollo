@@ -88,7 +88,7 @@ export const MainHeader = () => {
           <Menu>
             <Link href="/documents/new">
               <Button mx={5} bg={COLORS.red} color={"#ffff"}>
-                Try it out
+                New document
               </Button>
             </Link>
             <Button
