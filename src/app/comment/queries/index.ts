@@ -13,6 +13,7 @@ export const ADD_COMMENT_SUBSCRIPTION = gql`
     commentadded(docId: $docId) {
       id
       content
+      createdAt
       user{
         id
         email
