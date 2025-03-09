@@ -28,6 +28,7 @@ export const EditDoc = () => {
   const params = useParams();
   const { data: user } = useContext(UserContext);
   const [value, setValue] = useState("");
+  const [isChanging, setIsChanging] = useState(false);
   const timeout = useRef<string | number | NodeJS.Timeout | undefined>(
     undefined
   );
@@ -40,17 +41,19 @@ export const EditDoc = () => {
 
   const onChangeEditor = useCallback(
     (text: string) => {
-      setValue(text);
-      clearTimeout(timeout.current);
-      timeout.current = setTimeout(() => {
-        const id = data.docDetails.id;
-        const content = text;
-        const body = { id, content };
-        mutate({ variables: { body } });
+      if (!isChanging) {
+        setValue(text);
         clearTimeout(timeout.current);
-      }, 2000);
+        timeout.current = setTimeout(() => {
+          const id = data.docDetails.id;
+          const body = { id, content: text };
+          mutate({ variables: { body } });
+          clearTimeout(timeout.current);
+        }, 2000);
+      }
+      setIsChanging(false);
     },
-    [data, mutate]
+    [data, mutate, isChanging]
   );
 
   const onData = useCallback(
@@ -61,6 +64,7 @@ export const EditDoc = () => {
       if (response) {
         const content = response.doccontentedited.content;
         setValue(content);
+        setIsChanging(true);
       }
     },
     []
