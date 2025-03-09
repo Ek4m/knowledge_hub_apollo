@@ -22,6 +22,11 @@ let pendingRequests: CallableFunction[] = [];
 let isRefreshing = false;
 
 const apolloClient = new ApolloClient({
+  defaultOptions: {
+    mutate: { errorPolicy: "all" },
+    query: { errorPolicy: "all" },
+    watchQuery: { errorPolicy: "all" },
+  },
   link: from([]),
   cache: new InMemoryCache(),
 });
@@ -80,7 +85,6 @@ const splitLink = split(
   wsLink, // web socket connection for subscriptions
   httpLink // http connection for query and mutation
 );
-
 
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
   if (graphQLErrors) {

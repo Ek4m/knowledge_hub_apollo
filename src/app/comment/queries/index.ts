@@ -14,9 +14,13 @@ export const ADD_COMMENT_SUBSCRIPTION = gql`
       id
       content
       createdAt
-      user{
+      user {
         id
         email
+        profile {
+          firstName
+          lastName
+        }
       }
     }
   }
@@ -31,6 +35,10 @@ export const GET_COMMENTS_QUERY = gql`
       user {
         id
         email
+        profile {
+          firstName
+          lastName
+        }
       }
     }
   }

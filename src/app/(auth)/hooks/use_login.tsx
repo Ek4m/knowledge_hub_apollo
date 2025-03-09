@@ -13,9 +13,7 @@ import { LOGIN_QUERY } from "../queries";
 export const useLogin = () => {
   const { refetch } = useContext(UserContext);
 
-  const [submit, { loading }] = useMutation(LOGIN_QUERY, {
-    errorPolicy: "all",
-  });
+  const [submit, { loading }] = useMutation(LOGIN_QUERY);
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const toast = useToast();

@@ -35,9 +35,8 @@ export const EditDoc = () => {
 
   const { data, loading } = useQuery(GET_DOC_QUERY, {
     variables: { id: params.id },
-    errorPolicy: "all",
   });
-  const [mutate] = useMutation(EDIT_DOC_MUTATION, { errorPolicy: "all" });
+  const [mutate] = useMutation(EDIT_DOC_MUTATION);
 
   const onChangeEditor = useCallback(
     (text: string) => {

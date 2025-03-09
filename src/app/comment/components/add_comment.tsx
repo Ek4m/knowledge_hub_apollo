@@ -22,8 +22,6 @@ export const AddComment = () => {
   const { onSubmit, errors, loading } = useAddComment(id);
   const { commentList } = useHandleCommentList(id);
 
-  console.log(commentList);
-
   const onOpenHandler = useCallback(() => {
     setVisible(true);
   }, []);

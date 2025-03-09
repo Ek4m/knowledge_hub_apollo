@@ -7,9 +7,7 @@ import { useRouter } from "next/navigation";
 
 export const useRegister = () => {
   const router = useRouter();
-  const [submit, { loading }] = useMutation(REGISTER_QUERY, {
-    errorPolicy: "all",
-  });
+  const [submit, { loading }] = useMutation(REGISTER_QUERY);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const toast = useToast();
 

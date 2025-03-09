@@ -15,7 +15,6 @@ export const DocDetails = () => {
 
   const { data, loading } = useQuery(GET_DOC_QUERY, {
     variables: { id: params.id },
-    errorPolicy: "all",
   });
 
   const doc = useMemo<IDoc | null>(
@@ -45,7 +44,10 @@ export const DocDetails = () => {
       <br />
       {doc && (
         <Fragment>
-          <div className="html_render_css" dangerouslySetInnerHTML={{ __html: doc.content }} />
+          <div
+            className="html_render_css"
+            dangerouslySetInnerHTML={{ __html: doc.content }}
+          />
           <br />
           <Link href={`/documents/${doc.id}/edit`}>
             <Button bg={COLORS.red} color={"white"}>

@@ -6,9 +6,7 @@ import { useToast } from "@chakra-ui/react";
 
 export const useAddComment = (docId: string) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [mutate, { loading }] = useMutation(ADD_COMMENT_MUTATION, {
-    errorPolicy: "all",
-  });
+  const [mutate, { loading }] = useMutation(ADD_COMMENT_MUTATION);
 
   const toast = useToast();
 

@@ -9,9 +9,7 @@ import { CREATE_DOC_QUERY } from "../queries";
 
 export const useCreateDoc = () => {
   const [categoryId, setCategory] = useState("");
-  const [submit, { loading }] = useMutation(CREATE_DOC_QUERY, {
-    errorPolicy: "all",
-  });
+  const [submit, { loading }] = useMutation(CREATE_DOC_QUERY);
 
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const toast = useToast();
