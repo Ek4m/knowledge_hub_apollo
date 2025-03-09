@@ -2,6 +2,7 @@ import { STYLES } from "@/app/common/constants";
 import { Box, Heading } from "@chakra-ui/react";
 import React from "react";
 import { DocDetails } from "../components";
+import { AddComment } from "@/app/comment/components";
 
 const DocumentDetailsPage = () => {
   return (
@@ -11,6 +12,8 @@ const DocumentDetailsPage = () => {
       <hr />
       <br />
       <DocDetails />
+      <br />
+      <AddComment />
     </Box>
   );
 };
