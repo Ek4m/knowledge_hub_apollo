@@ -19,6 +19,7 @@
     "@tinymce/tinymce-react": "^6.0.0",
     "framer-motion": "^12.4.10",
     "graphql": "^16.10.0",
+    "graphql-ws": "^6.0.4",
     "js-cookie": "^3.0.5",
     "lexical": "^0.27.1",
     "next": "15.2.1",

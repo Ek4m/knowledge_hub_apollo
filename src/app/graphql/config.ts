@@ -5,14 +5,18 @@ import {
   from,
   InMemoryCache,
   Observable,
+  split,
 } from "@apollo/client";
+import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
 import Cookies from "js-cookie";
+import { createClient } from "graphql-ws";
 
 import { REFRESH_TOKEN_QUERY } from "../(auth)/queries";
 import { __access_token, __refresh_token } from "../(auth)/constants/values";
-import { ERROR_CODES } from "./constants";
+import { API_URI, ERROR_CODES } from "./constants";
+import { getMainDefinition } from "@apollo/client/utilities";
 
 let pendingRequests: CallableFunction[] = [];
 let isRefreshing = false;
@@ -57,7 +61,26 @@ const authLink = setContext(async (_, second) => {
   };
 });
 
-const httpLink = createHttpLink({ uri: "http://localhost:4000/graphql" });
+const httpLink = createHttpLink({ uri: `http://${API_URI}` });
+
+const wsLink = new GraphQLWsLink(
+  createClient({
+    url: `ws://${API_URI}`,
+  })
+);
+
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    );
+  },
+  wsLink, // web socket connection for subscriptions
+  httpLink // http connection for query and mutation
+);
+
 
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
   if (graphQLErrors) {
@@ -92,5 +115,5 @@ const errorLink = onError(({ graphQLErrors, operation, forward }) => {
   }
 });
 
-apolloClient.setLink(from([errorLink, authLink, httpLink]));
+apolloClient.setLink(from([errorLink, authLink, splitLink]));
 export { apolloClient };

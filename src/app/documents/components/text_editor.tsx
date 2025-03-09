@@ -1,27 +1,21 @@
 "use client";
-import { Editor } from "@tinymce/tinymce-react";
 import React, { FC } from "react";
+import { Editor } from "@tinymce/tinymce-react";
+import { IAllProps } from "@tinymce/tinymce-react/lib/cjs/main/ts/components/Editor";
 
-interface TextEditorProps {
-  placeholder: string;
-  value?: string;
-  onChange?(value: string): void;
-  textareaName?: string;
-}
+type IAllPropsWithRemovedFields = Omit<IAllProps, "apiKey">;
+type TextEditorProps = IAllPropsWithRemovedFields & {
+  placeholder?: string;
+};
 
 export const RichTextEditor: FC<TextEditorProps> = ({
-  onChange,
   placeholder,
-  value,
-  textareaName,
+  ...props
 }) => {
   return (
     <Editor
       apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-      id="text_editor"
-      value={value}
-      onEditorChange={onChange}
-      textareaName={textareaName}
+      {...props}
       init={{
         height: 500,
         menubar: false,

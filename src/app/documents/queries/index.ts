@@ -29,3 +29,29 @@ export const GET_DOC_QUERY = gql`
     }
   }
 `;
+
+export const EDIT_DOC_MUTATION = gql`
+  mutation EditDoc($body: EditDocDto!) {
+    editDoc(body: $body) {
+      userId
+      doc {
+        id
+        title
+        content
+      }
+    }
+  }
+`;
+
+export const EDIT_DOC_SUBSCRIPTION = gql`
+  subscription onDocEdited($userId: Int!) {
+    doccontentedited(userId: $userId) {
+      userId
+      doc {
+        id
+        title
+        content
+      }
+    }
+  }
+`;
