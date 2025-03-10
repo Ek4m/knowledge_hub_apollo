@@ -14,7 +14,7 @@ export const CommentListItem: FC<{ c: IComment }> = ({ c }) => {
     return `${c.user.profile?.firstName} ${c.user.profile?.lastName}`;
   }, [user, c]);
   return (
-    <Flex alignItems={"flex-start"} p={10}>
+    <Flex alignItems={"flex-start"} py={10}>
       <FaUserCircle size={30} />
       <Box ml={5} flex={1}>
         <Flex mb={2}>
