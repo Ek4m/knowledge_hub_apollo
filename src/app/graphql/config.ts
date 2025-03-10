@@ -4,7 +4,6 @@ import {
   createHttpLink,
   from,
   InMemoryCache,
-  Observable,
   split,
 } from "@apollo/client";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
@@ -16,7 +15,7 @@ import { createClient } from "graphql-ws";
 import { REFRESH_TOKEN_QUERY } from "../(auth)/queries";
 import { __access_token, __refresh_token } from "../(auth)/constants/values";
 import { API_URI, ERROR_CODES } from "./constants";
-import { getMainDefinition } from "@apollo/client/utilities";
+import { getMainDefinition, Observable } from "@apollo/client/utilities";
 
 let pendingRequests: CallableFunction[] = [];
 let isRefreshing = false;
@@ -32,28 +31,32 @@ const apolloClient = new ApolloClient({
 });
 
 const applyRefreshToken = async () => {
-  if (isRefreshing)
+  console.log(isRefreshing);
+  if (isRefreshing) {
     return new Promise((resolve) => pendingRequests.push(resolve));
-  try {
-    const refreshToken = Cookies.get(__refresh_token);
-    const body = { refreshToken };
-    const { data } = await apolloClient.mutate({
-      mutation: REFRESH_TOKEN_QUERY,
-      variables: { body },
-    });
-    if (data.refresh) {
-      Cookies.set(__refresh_token, data.refresh.refreshToken);
-      Cookies.set(__access_token, data.refresh.accessToken);
-      pendingRequests.forEach((req) => req(data.refresh.accessToken));
-      pendingRequests = [];
-      return data.refresh.accessToken;
+  } else {
+    try {
+      isRefreshing = true;
+      const refreshToken = Cookies.get(__refresh_token);
+      const body = { refreshToken };
+      const { data } = await apolloClient.mutate({
+        mutation: REFRESH_TOKEN_QUERY,
+        variables: { body },
+      });
+      if (data.refresh) {
+        Cookies.set(__refresh_token, data.refresh.refreshToken);
+        Cookies.set(__access_token, data.refresh.accessToken);
+        pendingRequests.forEach((req) => req(data.refresh.accessToken));
+        pendingRequests = [];
+        return data.refresh.accessToken;
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      isRefreshing = false;
     }
-  } catch (error) {
-    console.log(error);
-  } finally {
-    isRefreshing = false;
+    return null;
   }
-  return null;
 };
 
 const authLink = setContext(async (_, second) => {
@@ -88,32 +91,31 @@ const splitLink = split(
 
 const errorLink = onError(({ graphQLErrors, operation, forward }) => {
   if (graphQLErrors) {
-    for (const err of graphQLErrors) {
-      if (err.extensions?.code === ERROR_CODES.UNAUTHORIZED) {
-        // Return a new Observable to handle the token refresh
-        return new Observable((observer) => {
-          // Refresh your accessToken async here
-          applyRefreshToken()
-            .then((newAccessToken) => {
-              // Retry with new token
-              operation.setContext(({ headers = {} }) => ({
-                headers: {
-                  ...headers,
-                  Authorization: `Bearer ${newAccessToken}`,
-                },
-              }));
-              const subscriber = {
-                next: observer.next.bind(observer),
-                error: observer.error.bind(observer),
-                complete: observer.complete.bind(observer),
-              };
-              forward(operation).subscribe(subscriber);
-            })
-            .catch((error) => {
-              // Handle failed refresh
-              observer.error(error);
+    for (const error of graphQLErrors) {
+      if (
+        error.extensions &&
+        error.extensions.code === ERROR_CODES.UNAUTHORIZED
+      ) {
+        const err = graphQLErrors.find(
+          (e) => e.extensions && e.extensions?.code === ERROR_CODES.UNAUTHORIZED
+        );
+        if (err) {
+          return new Observable((observer) => {
+            applyRefreshToken().then((token) => {
+              if (typeof token === "string") {
+                operation.setContext(({ headers = {} }) => {
+                  return {
+                    headers: {
+                      ...headers,
+                      Authorization: `Bearer ${token}`,
+                    },
+                  };
+                });
+                return forward(operation).subscribe(observer);
+              }
             });
-        });
+          });
+        }
       }
     }
   }

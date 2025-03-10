@@ -19,7 +19,6 @@ export const useAddComment = (docId: string) => {
       const result = await mutate({ variables: { body } });
       if (result.errors) {
         const error = result.errors[0];
-        console.log(error.extensions);
         if (error.extensions) {
           const serverErrors = error.extensions.errors as Record<
             string,
@@ -27,7 +26,6 @@ export const useAddComment = (docId: string) => {
           >;
           switch (error.extensions.code) {
             case ERROR_CODES.BAD_USER_INPUT:
-              // console.log(serverErrors);
               setErrors(serverErrors);
               break;
             default:
