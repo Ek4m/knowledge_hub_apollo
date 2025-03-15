@@ -17,6 +17,19 @@ export const GET_MY_DOCS_QUERY = gql`
   }
 `;
 
+export const GET_ALL_DOCS_QUERY = gql`
+  {
+    getDocs {
+      id
+      title
+      content
+      userId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
 export const GET_DOC_QUERY = gql`
   query GetDoc($id: String!) {
     docDetails(id: $id) {

@@ -1,18 +1,18 @@
 "use client";
 import React, { useCallback, useEffect } from "react";
 import { Flex, Spinner } from "@chakra-ui/react";
-import Cookies from "js-cookie";
 
 import { COLORS } from "@/app/common/constants";
-import { __access_token, __refresh_token } from "../constants/values";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const LogoutPage = () => {
+  const router = useRouter();
   const onLogout = useCallback(async () => {
-    Cookies.remove(__access_token);
-    Cookies.remove(__refresh_token);
-    location.href = "/";
-  }, []);
-  
+    await signOut({ redirect: false });
+    router.push("/");
+  }, [router]);
+
   useEffect(() => {
     onLogout();
   }, [onLogout]);

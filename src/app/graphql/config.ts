@@ -9,8 +9,8 @@ import {
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { setContext } from "@apollo/client/link/context";
 import { onError } from "@apollo/client/link/error";
-import Cookies from "js-cookie";
 import { createClient } from "graphql-ws";
+import Cookies from "js-cookie";
 
 import { REFRESH_TOKEN_QUERY } from "../(auth)/queries";
 import { __access_token, __refresh_token } from "../(auth)/constants/values";
@@ -21,6 +21,7 @@ let pendingRequests: CallableFunction[] = [];
 let isRefreshing = false;
 
 const apolloClient = new ApolloClient({
+  ssrMode: true,
   defaultOptions: {
     mutate: { errorPolicy: "all" },
     query: { errorPolicy: "all" },
@@ -31,7 +32,6 @@ const apolloClient = new ApolloClient({
 });
 
 const applyRefreshToken = async () => {
-  console.log(isRefreshing);
   if (isRefreshing) {
     return new Promise((resolve) => pendingRequests.push(resolve));
   } else {

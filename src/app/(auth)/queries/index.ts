@@ -5,6 +5,15 @@ export const LOGIN_QUERY = gql`
     signIn(body: $body) {
       accessToken
       refreshToken
+      user {
+        id
+        email
+        role
+        profile {
+          firstName
+          lastName
+        }
+      }
     }
   }
 `;
@@ -34,7 +43,7 @@ export const ME_QUERY = gql`
       id
       email
       role
-      profile{
+      profile {
         firstName
         lastName
       }

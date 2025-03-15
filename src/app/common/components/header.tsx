@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Link as ChakraLink,
   Box,
@@ -21,25 +15,26 @@ import {
   MenuItem,
   MenuDivider,
   Stack,
-  Spinner,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { HamburgerIcon, CloseIcon, SmallAddIcon } from "@chakra-ui/icons";
 import { COLORS, STYLES } from "../constants";
 import MainLogo from "./logo";
 import { linkHoverStyle } from "./styling";
-import { UserContext } from "@/app/user/contexts";
+import { useSession } from "next-auth/react";
 
 export const MainHeader = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const headerRef = useRef<HTMLDivElement>(null);
   const [scrollActive, setScrollActive] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
-  const { data: userData, userLoading } = useContext(UserContext);
+
+  const { data: userData } = useSession();
 
   const onScrollHandler = useCallback(() => {
     setScrollActive(window.scrollY > 50);
   }, []);
+  console.log(userData?.user);
 
   useEffect(() => {
     window.addEventListener("scroll", onScrollHandler);
@@ -79,6 +74,14 @@ export const MainHeader = () => {
           <ChakraLink
             ml={5}
             _hover={linkHoverStyle}
+            as={Link}
+            href="/documents"
+          >
+            Documents
+          </ChakraLink>
+          <ChakraLink
+            ml={5}
+            _hover={linkHoverStyle}
             href="https://github.com/Ek4m/"
           >
             Github
@@ -99,8 +102,7 @@ export const MainHeader = () => {
             >
               Contact us
             </Button>
-            {userLoading && <Spinner />}
-            {userData ? (
+            {userData && userData.user ? (
               <MenuButton
                 as={Button}
                 rounded={"full"}
