@@ -5,7 +5,7 @@ import { AppProviders, SessionProvider } from "./wrappers";
 import { MainHeader, MainFooter } from "./common/components";
 import { CategoryProvider } from "./category/contexts";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./(auth)/api/auth/[...nextauth]/route";
+import { authOptions } from "./(auth)/config";
 
 export const metadata: Metadata = {
   title: "Welcome to Decentralized Knowledge Hub (DKH)",
