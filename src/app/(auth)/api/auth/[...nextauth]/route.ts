@@ -37,7 +37,6 @@ export const authOptions: AuthOptions = {
           const cookieMap = await cookies();
           cookieMap.set(__access_token, accessToken);
           cookieMap.set(__refresh_token, refreshToken);
-          console.log("___USER FROM AUTHORIZE_______", user);
           return user;
         } catch (error) {
           console.log(error);
@@ -47,11 +46,7 @@ export const authOptions: AuthOptions = {
     }),
   ],
   callbacks: {
-    jwt({ user, token, profile, session, account }) {
-      console.log("____PROFILE", profile);
-      console.log("_____SESSION", session);
-      console.log("_____USER", user);
-      console.log("_____ACCOUNT", account);
+    jwt({ user, token }) {
       if (user) token.user = user;
       return token;
     },

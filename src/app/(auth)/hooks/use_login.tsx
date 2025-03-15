@@ -1,10 +1,12 @@
 import { FormEvent, useCallback, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 export const useLogin = () => {
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const toast = useToast();
+  const router = useRouter();
 
   const onSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
@@ -26,12 +28,14 @@ export const useLogin = () => {
             position: "top-right",
             title: "Invalid credentials",
           });
+        } else {
+          router.push("/");
         }
       } catch (error) {
         console.log(error);
       }
     },
-    [toast]
+    [toast, router]
   );
 
   return { onSubmit, isSubmitting: false, errors: formErrors };
